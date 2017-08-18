@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{7F248553-13AE-4188-889E-D0E78A31F580}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "DatabaseScripts", "{225F4A90-56FD-41AD-8BE7-7C9759A07B05}"
+	ProjectSection(SolutionItems) = preProject
+		DataPopulation.sql = DataPopulation.sql
+		Procedures.sql = Procedures.sql
+		TableCreationScripts.sql = TableCreationScripts.sql
+		Types.sql = Types.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{67FC9204-3FD7-47AB-B66D-76F43787D4A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{D49FF0A1-AD47-4478-BF0F-9880C0C90772}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F248553-13AE-4188-889E-D0E78A31F580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F248553-13AE-4188-889E-D0E78A31F580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F248553-13AE-4188-889E-D0E78A31F580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F248553-13AE-4188-889E-D0E78A31F580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67FC9204-3FD7-47AB-B66D-76F43787D4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67FC9204-3FD7-47AB-B66D-76F43787D4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67FC9204-3FD7-47AB-B66D-76F43787D4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67FC9204-3FD7-47AB-B66D-76F43787D4A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D49FF0A1-AD47-4478-BF0F-9880C0C90772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49FF0A1-AD47-4478-BF0F-9880C0C90772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49FF0A1-AD47-4478-BF0F-9880C0C90772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49FF0A1-AD47-4478-BF0F-9880C0C90772}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

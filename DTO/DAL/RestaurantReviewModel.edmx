@@ -1,0 +1,784 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RestaurantReviewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ContactInformation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="address_1" Type="nvarchar(max)" />
+          <Property Name="address_2" Type="nvarchar(max)" />
+          <Property Name="city" Type="nvarchar(max)" />
+          <Property Name="state" Type="char" MaxLength="2" />
+          <Property Name="zip_code" Type="nvarchar(max)" />
+          <Property Name="phone_number" Type="nvarchar(max)" />
+          <Property Name="fax_number" Type="nvarchar(max)" />
+          <Property Name="email" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="feature_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="HoursOfOperation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="day_of_week" Type="tinyint" Nullable="false" />
+          <Property Name="time_opened" Type="time" Precision="7" Nullable="false" />
+          <Property Name="time_closed" Type="time" Precision="7" Nullable="false" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Restaurant">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="admin_id" Type="int" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RestaurantFeature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="feature_id" Type="int" Nullable="false" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RestaurantSocialMedia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="social_media_id" Type="int" Nullable="false" />
+          <Property Name="social_media_link" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="review_comment" Type="nvarchar(max)" />
+          <Property Name="up_votes" Type="int" />
+          <Property Name="reported_abuse" Type="int" />
+          <Property Name="rating" Type="int" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SocialMedia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="social_media_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login_name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="password_hash" Type="binary" MaxLength="64" Nullable="false" />
+          <Property Name="salt" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="first_name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="avatar" Type="image" />
+          <Property Name="recovery_email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="contact_id" Type="int" />
+          <Property Name="failed_login_attempts" Type="int" />
+          <Property Name="locked" Type="bit" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__HoursOfOp__resta__32767D0B">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="HoursOfOperation" Type="Self.HoursOfOperation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoursOfOperation">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__admin__19AACF41">
+          <End Role="ContactInformation" Type="Self.ContactInformation" Multiplicity="0..1" />
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactInformation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Restaurant">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__featu__2704CA5F">
+          <End Role="Feature" Type="Self.Feature" Multiplicity="1" />
+          <End Role="RestaurantFeature" Type="Self.RestaurantFeature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feature">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantFeature">
+              <PropertyRef Name="feature_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__resta__1F63A897">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="RestaurantSocialMedia" Type="Self.RestaurantSocialMedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantSocialMedia">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__resta__2610A626">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="RestaurantFeature" Type="Self.RestaurantFeature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantFeature">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__socia__2057CCD0">
+          <End Role="SocialMedia" Type="Self.SocialMedia" Multiplicity="1" />
+          <End Role="RestaurantSocialMedia" Type="Self.RestaurantSocialMedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialMedia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantSocialMedia">
+              <PropertyRef Name="social_media_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__restaura__2DB1C7EE">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__user_id__2CBDA3B5">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__contact_id__1209AD79">
+          <End Role="ContactInformation" Type="Self.ContactInformation" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactInformation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="contact_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="loginname" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+          <Parameter Name="firstname" Type="nvarchar" Mode="In" />
+          <Parameter Name="lastname" Type="nvarchar" Mode="In" />
+          <Parameter Name="recoveryemail" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="address1" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="address2" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="city" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="state" Type="char" Mode="In" />
+          <Parameter Name="zipcode" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="phonenumber" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="faxnumber" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="email" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="RestaurantReviewModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactInformation" EntityType="Self.ContactInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feature" EntityType="Self.Feature" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HoursOfOperation" EntityType="Self.HoursOfOperation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestaurantFeature" EntityType="Self.RestaurantFeature" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestaurantSocialMedia" EntityType="Self.RestaurantSocialMedia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SocialMedia" EntityType="Self.SocialMedia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__HoursOfOp__resta__32767D0B" Association="Self.FK__HoursOfOp__resta__32767D0B">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="HoursOfOperation" EntitySet="HoursOfOperation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__admin__19AACF41" Association="Self.FK__Restauran__admin__19AACF41">
+            <End Role="ContactInformation" EntitySet="ContactInformation" />
+            <End Role="Restaurant" EntitySet="Restaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__featu__2704CA5F" Association="Self.FK__Restauran__featu__2704CA5F">
+            <End Role="Feature" EntitySet="Feature" />
+            <End Role="RestaurantFeature" EntitySet="RestaurantFeature" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__1F63A897" Association="Self.FK__Restauran__resta__1F63A897">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__2610A626" Association="Self.FK__Restauran__resta__2610A626">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="RestaurantFeature" EntitySet="RestaurantFeature" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__socia__2057CCD0" Association="Self.FK__Restauran__socia__2057CCD0">
+            <End Role="SocialMedia" EntitySet="SocialMedia" />
+            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__restaura__2DB1C7EE" Association="Self.FK__Review__restaura__2DB1C7EE">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__user_id__2CBDA3B5" Association="Self.FK__Review__user_id__2CBDA3B5">
+            <End Role="User" EntitySet="User" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__contact_id__1209AD79" Association="Self.FK__User__contact_id__1209AD79">
+            <End Role="ContactInformation" EntitySet="ContactInformation" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RestaurantReviewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RestaurantReviewEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="CreateUser">
+            <Parameter Name="loginname" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="firstname" Mode="In" Type="String" />
+            <Parameter Name="lastname" Mode="In" Type="String" />
+            <Parameter Name="recoveryemail" Mode="In" Type="String" />
+            <Parameter Name="address1" Mode="In" Type="String" />
+            <Parameter Name="address2" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="state" Mode="In" Type="String" />
+            <Parameter Name="zipcode" Mode="In" Type="String" />
+            <Parameter Name="phonenumber" Mode="In" Type="String" />
+            <Parameter Name="faxnumber" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Categories" EntityType="RestaurantReviewModel.Category" />
+          <EntitySet Name="ContactInformations" EntityType="RestaurantReviewModel.ContactInformation" />
+          <EntitySet Name="Features" EntityType="RestaurantReviewModel.Feature" />
+          <EntitySet Name="HoursOfOperations" EntityType="RestaurantReviewModel.HoursOfOperation" />
+          <EntitySet Name="Restaurants" EntityType="RestaurantReviewModel.Restaurant" />
+          <EntitySet Name="RestaurantFeatures" EntityType="RestaurantReviewModel.RestaurantFeature" />
+          <EntitySet Name="RestaurantSocialMedias" EntityType="RestaurantReviewModel.RestaurantSocialMedia" />
+          <EntitySet Name="Reviews" EntityType="RestaurantReviewModel.Review" />
+          <EntitySet Name="SocialMedias" EntityType="RestaurantReviewModel.SocialMedia" />
+          <EntitySet Name="Users" EntityType="RestaurantReviewModel.User" />
+          <AssociationSet Name="FK__Restauran__admin__19AACF41" Association="RestaurantReviewModel.FK__Restauran__admin__19AACF41">
+            <End Role="ContactInformation" EntitySet="ContactInformations" />
+            <End Role="Restaurant" EntitySet="Restaurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__contact_id__1209AD79" Association="RestaurantReviewModel.FK__User__contact_id__1209AD79">
+            <End Role="ContactInformation" EntitySet="ContactInformations" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__featu__2704CA5F" Association="RestaurantReviewModel.FK__Restauran__featu__2704CA5F">
+            <End Role="Feature" EntitySet="Features" />
+            <End Role="RestaurantFeature" EntitySet="RestaurantFeatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoursOfOp__resta__32767D0B" Association="RestaurantReviewModel.FK__HoursOfOp__resta__32767D0B">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="HoursOfOperation" EntitySet="HoursOfOperations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__1F63A897" Association="RestaurantReviewModel.FK__Restauran__resta__1F63A897">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__2610A626" Association="RestaurantReviewModel.FK__Restauran__resta__2610A626">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="RestaurantFeature" EntitySet="RestaurantFeatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__restaura__2DB1C7EE" Association="RestaurantReviewModel.FK__Review__restaura__2DB1C7EE">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__socia__2057CCD0" Association="RestaurantReviewModel.FK__Restauran__socia__2057CCD0">
+            <End Role="SocialMedia" EntitySet="SocialMedias" />
+            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__user_id__2CBDA3B5" Association="RestaurantReviewModel.FK__Review__user_id__2CBDA3B5">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ContactInformation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="address_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="address_2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="zip_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phone_number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fax_number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Restaurants" Relationship="RestaurantReviewModel.FK__Restauran__admin__19AACF41" FromRole="ContactInformation" ToRole="Restaurant" />
+          <NavigationProperty Name="Users" Relationship="RestaurantReviewModel.FK__User__contact_id__1209AD79" FromRole="ContactInformation" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="feature_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RestaurantFeatures" Relationship="RestaurantReviewModel.FK__Restauran__featu__2704CA5F" FromRole="Feature" ToRole="RestaurantFeature" />
+        </EntityType>
+        <EntityType Name="HoursOfOperation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="day_of_week" Type="Byte" Nullable="false" />
+          <Property Name="time_opened" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="time_closed" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__HoursOfOp__resta__32767D0B" FromRole="HoursOfOperation" ToRole="Restaurant" />
+        </EntityType>
+        <EntityType Name="Restaurant">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="admin_id" Type="Int32" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ContactInformation" Relationship="RestaurantReviewModel.FK__Restauran__admin__19AACF41" FromRole="Restaurant" ToRole="ContactInformation" />
+          <NavigationProperty Name="HoursOfOperations" Relationship="RestaurantReviewModel.FK__HoursOfOp__resta__32767D0B" FromRole="Restaurant" ToRole="HoursOfOperation" />
+          <NavigationProperty Name="RestaurantSocialMedias" Relationship="RestaurantReviewModel.FK__Restauran__resta__1F63A897" FromRole="Restaurant" ToRole="RestaurantSocialMedia" />
+          <NavigationProperty Name="RestaurantFeatures" Relationship="RestaurantReviewModel.FK__Restauran__resta__2610A626" FromRole="Restaurant" ToRole="RestaurantFeature" />
+          <NavigationProperty Name="Reviews" Relationship="RestaurantReviewModel.FK__Review__restaura__2DB1C7EE" FromRole="Restaurant" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="RestaurantFeature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="feature_id" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Feature" Relationship="RestaurantReviewModel.FK__Restauran__featu__2704CA5F" FromRole="RestaurantFeature" ToRole="Feature" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__2610A626" FromRole="RestaurantFeature" ToRole="Restaurant" />
+        </EntityType>
+        <EntityType Name="RestaurantSocialMedia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="social_media_id" Type="Int32" Nullable="false" />
+          <Property Name="social_media_link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__1F63A897" FromRole="RestaurantSocialMedia" ToRole="Restaurant" />
+          <NavigationProperty Name="SocialMedia" Relationship="RestaurantReviewModel.FK__Restauran__socia__2057CCD0" FromRole="RestaurantSocialMedia" ToRole="SocialMedia" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="review_comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="up_votes" Type="Int32" />
+          <Property Name="reported_abuse" Type="Int32" />
+          <Property Name="rating" Type="Int32" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Review__restaura__2DB1C7EE" FromRole="Review" ToRole="Restaurant" />
+          <NavigationProperty Name="User" Relationship="RestaurantReviewModel.FK__Review__user_id__2CBDA3B5" FromRole="Review" ToRole="User" />
+        </EntityType>
+        <EntityType Name="SocialMedia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="social_media_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RestaurantSocialMedias" Relationship="RestaurantReviewModel.FK__Restauran__socia__2057CCD0" FromRole="SocialMedia" ToRole="RestaurantSocialMedia" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login_name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="password_hash" Type="Binary" Nullable="false" MaxLength="64" FixedLength="true" />
+          <Property Name="salt" Type="Guid" Nullable="false" />
+          <Property Name="first_name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="last_name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="avatar" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="recovery_email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contact_id" Type="Int32" />
+          <Property Name="failed_login_attempts" Type="Int32" />
+          <Property Name="locked" Type="Boolean" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ContactInformation" Relationship="RestaurantReviewModel.FK__User__contact_id__1209AD79" FromRole="User" ToRole="ContactInformation" />
+          <NavigationProperty Name="Reviews" Relationship="RestaurantReviewModel.FK__Review__user_id__2CBDA3B5" FromRole="User" ToRole="Review" />
+        </EntityType>
+        <Association Name="FK__Restauran__admin__19AACF41">
+          <End Type="RestaurantReviewModel.ContactInformation" Role="ContactInformation" Multiplicity="0..1" />
+          <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactInformation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Restaurant">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__contact_id__1209AD79">
+          <End Type="RestaurantReviewModel.ContactInformation" Role="ContactInformation" Multiplicity="0..1" />
+          <End Type="RestaurantReviewModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactInformation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="contact_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__featu__2704CA5F">
+          <End Type="RestaurantReviewModel.Feature" Role="Feature" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.RestaurantFeature" Role="RestaurantFeature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Feature">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantFeature">
+              <PropertyRef Name="feature_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoursOfOp__resta__32767D0B">
+          <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.HoursOfOperation" Role="HoursOfOperation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoursOfOperation">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__resta__1F63A897">
+          <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.RestaurantSocialMedia" Role="RestaurantSocialMedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantSocialMedia">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__resta__2610A626">
+          <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.RestaurantFeature" Role="RestaurantFeature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantFeature">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__restaura__2DB1C7EE">
+          <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__socia__2057CCD0">
+          <End Type="RestaurantReviewModel.SocialMedia" Role="SocialMedia" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.RestaurantSocialMedia" Role="RestaurantSocialMedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SocialMedia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantSocialMedia">
+              <PropertyRef Name="social_media_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__user_id__2CBDA3B5">
+          <End Type="RestaurantReviewModel.User" Role="User" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RestaurantReviewModelStoreContainer" CdmEntityContainer="RestaurantReviewEntities">
+          <FunctionImportMapping FunctionImportName="CreateUser" FunctionName="RestaurantReviewModel.Store.CreateUser" />
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactInformations">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.ContactInformation">
+              <MappingFragment StoreEntitySet="ContactInformation">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="fax_number" ColumnName="fax_number" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="address_2" ColumnName="address_2" />
+                <ScalarProperty Name="address_1" ColumnName="address_1" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Features">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.Feature">
+              <MappingFragment StoreEntitySet="Feature">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="feature_name" ColumnName="feature_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoursOfOperations">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.HoursOfOperation">
+              <MappingFragment StoreEntitySet="HoursOfOperation">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="time_closed" ColumnName="time_closed" />
+                <ScalarProperty Name="time_opened" ColumnName="time_opened" />
+                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Restaurants">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.Restaurant">
+              <MappingFragment StoreEntitySet="Restaurant">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="restaurant_name" ColumnName="restaurant_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RestaurantFeatures">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.RestaurantFeature">
+              <MappingFragment StoreEntitySet="RestaurantFeature">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="feature_id" ColumnName="feature_id" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RestaurantSocialMedias">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.RestaurantSocialMedia">
+              <MappingFragment StoreEntitySet="RestaurantSocialMedia">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="social_media_link" ColumnName="social_media_link" />
+                <ScalarProperty Name="social_media_id" ColumnName="social_media_id" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="reported_abuse" ColumnName="reported_abuse" />
+                <ScalarProperty Name="up_votes" ColumnName="up_votes" />
+                <ScalarProperty Name="review_comment" ColumnName="review_comment" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SocialMedias">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.SocialMedia">
+              <MappingFragment StoreEntitySet="SocialMedia">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="social_media_name" ColumnName="social_media_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="failed_login_attempts" ColumnName="failed_login_attempts" />
+                <ScalarProperty Name="contact_id" ColumnName="contact_id" />
+                <ScalarProperty Name="recovery_email" ColumnName="recovery_email" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="salt" ColumnName="salt" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="login_name" ColumnName="login_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
