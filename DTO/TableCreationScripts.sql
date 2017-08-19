@@ -78,18 +78,17 @@ GO
 
 --***********************************************************************************
 --Restraunt Definition:
---Notes: Given more time, I would create a relational table for users, with a user 
---		 type  to allow for multiple administrators.
+--Notes: 
 --***********************************************************************************
 CREATE TABLE dbo.Restaurant
 (
-	id				INT								IDENTITY(1,1)	PRIMARY KEY,
-	restaurant_name	NVARCHAR(MAX)					NOT NULL,
-	description		NVARCHAR(MAX)					NOT NULL,
-	admin_id		INT								FOREIGN KEY REFERENCES ContactInformation(id),
-	active			BIT								DEFAULT 1,
-	date_created	DATETIME						DEFAULT  GETUTCDATE(),
-	date_modified	DATETIME						DEFAULT  GETUTCDATE()
+	id							INT								IDENTITY(1,1)	PRIMARY KEY,
+	restaurant_name				NVARCHAR(MAX)					NOT NULL,
+	description					NVARCHAR(MAX)					NOT NULL,
+	contact_information_id		INT								FOREIGN KEY REFERENCES ContactInformation(id),
+	active						BIT								DEFAULT 1,
+	date_created				DATETIME						DEFAULT  GETUTCDATE(),
+	date_modified				DATETIME						DEFAULT  GETUTCDATE()
 )
 GO
 

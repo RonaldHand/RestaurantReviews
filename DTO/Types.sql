@@ -1,3 +1,12 @@
 ﻿CREATE TYPE [dbo].[IdList] AS TABLE(
     [Id] INT NULL
 );
+GO
+
+CREATE TYPE dbo.KVPList AS TABLE
+    ( Id INT, Value VARCHAR(MAX) )
+GO
+
+CREATE TYPE dbo.KVPUpsertList AS TABLE
+	( Id INT, Value VARCHAR(MAX), MarkForDelete BIT DEFAULT 0 )
+GO
