@@ -20,13 +20,14 @@ namespace DAL
             this.HoursOfOperations = new HashSet<HoursOfOperation>();
             this.RestaurantSocialMedias = new HashSet<RestaurantSocialMedia>();
             this.RestaurantFeatures = new HashSet<RestaurantFeature>();
+            this.RestaurantCategories = new HashSet<RestaurantCategory>();
             this.Reviews = new HashSet<Review>();
         }
     
         public int id { get; set; }
         public string restaurant_name { get; set; }
         public string description { get; set; }
-        public Nullable<int> admin_id { get; set; }
+        public Nullable<int> contact_information_id { get; set; }
         public Nullable<bool> active { get; set; }
         public Nullable<System.DateTime> date_created { get; set; }
         public Nullable<System.DateTime> date_modified { get; set; }
@@ -38,6 +39,8 @@ namespace DAL
         public virtual ICollection<RestaurantSocialMedia> RestaurantSocialMedias { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RestaurantFeature> RestaurantFeatures { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RestaurantCategory> RestaurantCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Reviews { get; set; }
     }

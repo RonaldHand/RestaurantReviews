@@ -12,7 +12,7 @@ namespace DTO
     {
 
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [Display(Name = "Restaurant Name", Description = "Restaurant Name")]
@@ -24,9 +24,22 @@ namespace DTO
         [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "[Enter Restaurant Description]")]
         public string Description { get; set; }
 
+
         public ContactInformation ContactInfo { get; set; }
 
-        
+
+        public List<RestaurantSocialMediaSetting> SocialMediaLinks { get; set; }
+
+
+        public List<RestaurantFeature> Features { get; set; }
+
+
+        public List<RestaurantCategory> Categories { get; set; }
+
+
+        public List<RestaurantReview> Reviews { get; set; }
+
+
 
     }
 }

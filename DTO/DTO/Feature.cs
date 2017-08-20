@@ -9,7 +9,7 @@ namespace DTO
 {
     public class Feature : DTOBase
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [Display(Name = "Feature Name", Description = "Feature Name")]

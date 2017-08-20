@@ -9,7 +9,7 @@ namespace DTO
 {
     public class ContactInformation : DTOBase
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [Display(Name = "Address 1", Description = "Address Line 1")]

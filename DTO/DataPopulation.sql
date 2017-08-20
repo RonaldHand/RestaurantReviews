@@ -44,9 +44,7 @@ EXEC dbo.CreateUser 'LoginName9', 'Password9', 'FirstName9', 'LastName9', 'Recov
 --CREATE RESTAURANT 
 --**************************************************************************************************************************
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-
-DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Nintendo Italian Restaurant', 'Detailed Description', 'Address Line 1', 'address2', 'Salem', 'FL', '12345', '(555) 555-1212', '(555) 555-3434', 'nin@gmail.com'
+EXEC dbo.Restaurant_Create 'Nintendo Italian Restaurant', 'Detailed Description', 'Address Line 1', 'address2', 'Salem', 'FL', '12345', '(555) 555-1212', '(555) 555-3434', 'nin@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -63,7 +61,7 @@ EXEC dbo.Restaurant_Create 'Nintendo Italian Restaurant', 'Detailed Description'
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Palace Eats', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Salem', 'GA', '12345', '(555) 555-1212', '(555) 555-3434', 'pe@gmail.com'
+EXEC dbo.Restaurant_Create 'Palace Eats', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Salem', 'GA', '12345', '(555) 555-1212', '(555) 555-3434', 'pe@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -82,7 +80,7 @@ EXEC dbo.Restaurant_Create 'Palace Eats', 'Detailed Description', 'Address Line 
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Jessica Burger', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Salem', 'IN', '12345', '(555) 555-1212', '(555) 555-3434', 'jj@gmail.com'
+EXEC dbo.Restaurant_Create 'Jessica Burger', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Salem', 'IN', '12345', '(555) 555-1212', '(555) 555-3434', 'jj@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -97,7 +95,7 @@ EXEC dbo.Restaurant_Create 'Jessica Burger', 'Detailed Description', 'Address Li
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Manny/Lou Cafe', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Salem', 'IA', '12345', '(555) 555-1212', '(555) 555-3434', 'ml@gmail.com'
+EXEC dbo.Restaurant_Create 'Manny/Lou Cafe', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Salem', 'IA', '12345', '(555) 555-1212', '(555) 555-3434', 'ml@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -112,7 +110,7 @@ EXEC dbo.Restaurant_Create 'Manny/Lou Cafe', 'Detailed Description', 'Address Li
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Casa Nayarit', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email1@gmail.com'
+EXEC dbo.Restaurant_Create 'Casa Nayarit', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email1@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -129,7 +127,7 @@ EXEC dbo.Restaurant_Create 'Casa Nayarit', 'Detailed Description', 'Address Line
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Chipotle Mexican Grill', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email2@gmail.com'
+EXEC dbo.Restaurant_Create 'Chipotle Mexican Grill', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email2@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -145,7 +143,7 @@ EXEC dbo.Restaurant_Create 'Chipotle Mexican Grill', 'Detailed Description', 'Ad
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Saga', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email3@gmail.com'
+EXEC dbo.Restaurant_Create 'Saga', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email3@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -163,7 +161,7 @@ EXEC dbo.Restaurant_Create 'Saga', 'Detailed Description', 'Address Line 1', 'Ad
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Rice Inn', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email4@gmail.com'
+EXEC dbo.Restaurant_Create 'Rice Inn', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email4@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -180,7 +178,7 @@ EXEC dbo.Restaurant_Create 'Rice Inn', 'Detailed Description', 'Address Line 1',
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Pho Kim', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email5@gmail.com'
+EXEC dbo.Restaurant_Create 'Pho Kim', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email5@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -199,7 +197,7 @@ EXEC dbo.Restaurant_Create 'Pho Kim', 'Detailed Description', 'Address Line 1', 
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Asain Garden', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email6@gmail.com'
+EXEC dbo.Restaurant_Create 'Asain Garden', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email6@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -219,7 +217,7 @@ EXEC dbo.Restaurant_Create 'Asain Garden', 'Detailed Description', 'Address Line
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Panda Express', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email7@gmail.com'
+EXEC dbo.Restaurant_Create 'Panda Express', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email7@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'
@@ -233,7 +231,7 @@ EXEC dbo.Restaurant_Create 'Panda Express', 'Detailed Description', 'Address Lin
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Panda Mandarin Garden', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email8@gmail.com'
+EXEC dbo.Restaurant_Create 'Panda Mandarin Garden', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email8@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	EXEC dbo.Restaurant_SocialMediaUpsert @restaurant_id, @socialmediadata
@@ -248,7 +246,7 @@ EXEC dbo.Restaurant_Create 'Panda Mandarin Garden', 'Detailed Description', 'Add
 GO
 
 DECLARE @restaurant_id INT, @socialmediadata AS KVPUpsertList, @featurelist AS KVPUpsertList, @categorylist AS KVPUpsertList
-EXEC dbo.Restaurant_Create 'Panda Garden', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email9@gmail.com'
+EXEC dbo.Restaurant_Create 'Panda Garden', 'Detailed Description', 'Address Line 1', 'Address Line 2', 'Bethel Park', 'PA', '15102', '(555) 555-1212', '(555) 555-3434', 'email9@gmail.com', @restaurant_id OUTPUT
 	SELECT @restaurant_id = @@IDENTITY
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Facebook' FROM dbo.SocialMedia WHERE social_media_name = 'Facebook'
 	INSERT INTO @socialmediadata (Id, Value) SELECT id, '@sample/Twitter' FROM dbo.SocialMedia WHERE social_media_name = 'Twitter'

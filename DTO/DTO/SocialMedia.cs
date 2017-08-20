@@ -9,7 +9,7 @@ namespace DTO
 {
     public class SocialMedia : DTOBase
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [Display(Name = "Social Media Name", Description = "Social Media Name")]

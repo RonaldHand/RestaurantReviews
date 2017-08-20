@@ -9,7 +9,7 @@ namespace DTO
 {
     public class Category: DTOBase
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [Display(Name = "Category Name", Description = "Category Name")]

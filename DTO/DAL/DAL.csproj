@@ -52,19 +52,22 @@
     <Compile Include="Category.cs">
       <DependentUpon>RestaurantReviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="ContactInformation.cs">
       <DependentUpon>RestaurantReviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Feature.cs">
       <DependentUpon>RestaurantReviewModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helper_CustomTypes.cs" />
     <Compile Include="HoursOfOperation.cs">
       <DependentUpon>RestaurantReviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\RestaurantRepo.cs" />
     <Compile Include="Restaurant.cs">
+      <DependentUpon>RestaurantReviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RestaurantCategory.cs">
       <DependentUpon>RestaurantReviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RestaurantFeature.cs">

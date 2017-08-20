@@ -58,7 +58,18 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="restaurant_name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="admin_id" Type="int" />
+          <Property Name="contact_information_id" Type="int" />
+          <Property Name="active" Type="bit" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="date_modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RestaurantCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
           <Property Name="active" Type="bit" />
           <Property Name="date_created" Type="datetime" />
           <Property Name="date_modified" Type="datetime" />
@@ -129,7 +140,7 @@
           <Property Name="date_created" Type="datetime" />
           <Property Name="date_modified" Type="datetime" />
         </EntityType>
-        <Association Name="FK__HoursOfOp__resta__32767D0B">
+        <Association Name="FK__HoursOfOp__resta__6DEC4894">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
           <End Role="HoursOfOperation" Type="Self.HoursOfOperation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -141,7 +152,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__admin__19AACF41">
+        <Association Name="FK__Restauran__categ__627A95E8">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="RestaurantCategory" Type="Self.RestaurantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantCategory">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__conta__4E739D3B">
           <End Role="ContactInformation" Type="Self.ContactInformation" Multiplicity="0..1" />
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="*" />
           <ReferentialConstraint>
@@ -149,11 +172,11 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Restaurant">
-              <PropertyRef Name="admin_id" />
+              <PropertyRef Name="contact_information_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__featu__2704CA5F">
+        <Association Name="FK__Restauran__featu__5BCD9859">
           <End Role="Feature" Type="Self.Feature" Multiplicity="1" />
           <End Role="RestaurantFeature" Type="Self.RestaurantFeature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -165,7 +188,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__resta__1F63A897">
+        <Association Name="FK__Restauran__resta__542C7691">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
           <End Role="RestaurantSocialMedia" Type="Self.RestaurantSocialMedia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -177,7 +200,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__resta__2610A626">
+        <Association Name="FK__Restauran__resta__5AD97420">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
           <End Role="RestaurantFeature" Type="Self.RestaurantFeature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -189,7 +212,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__socia__2057CCD0">
+        <Association Name="FK__Restauran__resta__618671AF">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="RestaurantCategory" Type="Self.RestaurantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantCategory">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__socia__55209ACA">
           <End Role="SocialMedia" Type="Self.SocialMedia" Multiplicity="1" />
           <End Role="RestaurantSocialMedia" Type="Self.RestaurantSocialMedia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -201,7 +236,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__restaura__2DB1C7EE">
+        <Association Name="FK__Review__restaura__69279377">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
           <End Role="Review" Type="Self.Review" Multiplicity="*" />
           <ReferentialConstraint>
@@ -213,7 +248,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__user_id__2CBDA3B5">
+        <Association Name="FK__Review__user_id__68336F3E">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Review" Type="Self.Review" Multiplicity="*" />
           <ReferentialConstraint>
@@ -225,7 +260,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User__contact_id__1209AD79">
+        <Association Name="FK__User__contact_id__46D27B73">
           <End Role="ContactInformation" Type="Self.ContactInformation" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -237,12 +272,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="loginname" Type="nvarchar" Mode="In" />
-          <Parameter Name="password" Type="nvarchar" Mode="In" />
-          <Parameter Name="firstname" Type="nvarchar" Mode="In" />
-          <Parameter Name="lastname" Type="nvarchar" Mode="In" />
-          <Parameter Name="recoveryemail" Type="nvarchar(max)" Mode="In" />
+        <Function Name="Restaurant_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="description" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="address1" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="address2" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="city" Type="nvarchar(max)" Mode="In" />
@@ -251,6 +283,21 @@
           <Parameter Name="phonenumber" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="faxnumber" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="email" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="Restaurant_Find" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar(max)" Mode="In" />
+          <Parameter Name="state" Type="char" Mode="In" />
+          <Parameter Name="city" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="Review_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+          <Parameter Name="restaurant_id" Type="int" Mode="In" />
+          <Parameter Name="review_comment" Type="varchar(max)" Mode="In" />
+          <Parameter Name="rating" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Review_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="RestaurantReviewModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
@@ -258,44 +305,53 @@
           <EntitySet Name="Feature" EntityType="Self.Feature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HoursOfOperation" EntityType="Self.HoursOfOperation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestaurantCategory" EntityType="Self.RestaurantCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RestaurantFeature" EntityType="Self.RestaurantFeature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RestaurantSocialMedia" EntityType="Self.RestaurantSocialMedia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialMedia" EntityType="Self.SocialMedia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__HoursOfOp__resta__32767D0B" Association="Self.FK__HoursOfOp__resta__32767D0B">
+          <AssociationSet Name="FK__HoursOfOp__resta__6DEC4894" Association="Self.FK__HoursOfOp__resta__6DEC4894">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="HoursOfOperation" EntitySet="HoursOfOperation" />
           </AssociationSet>
-          <AssociationSet Name="FK__Restauran__admin__19AACF41" Association="Self.FK__Restauran__admin__19AACF41">
+          <AssociationSet Name="FK__Restauran__categ__627A95E8" Association="Self.FK__Restauran__categ__627A95E8">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="RestaurantCategory" EntitySet="RestaurantCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__conta__4E739D3B" Association="Self.FK__Restauran__conta__4E739D3B">
             <End Role="ContactInformation" EntitySet="ContactInformation" />
             <End Role="Restaurant" EntitySet="Restaurant" />
           </AssociationSet>
-          <AssociationSet Name="FK__Restauran__featu__2704CA5F" Association="Self.FK__Restauran__featu__2704CA5F">
+          <AssociationSet Name="FK__Restauran__featu__5BCD9859" Association="Self.FK__Restauran__featu__5BCD9859">
             <End Role="Feature" EntitySet="Feature" />
             <End Role="RestaurantFeature" EntitySet="RestaurantFeature" />
           </AssociationSet>
-          <AssociationSet Name="FK__Restauran__resta__1F63A897" Association="Self.FK__Restauran__resta__1F63A897">
+          <AssociationSet Name="FK__Restauran__resta__542C7691" Association="Self.FK__Restauran__resta__542C7691">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedia" />
           </AssociationSet>
-          <AssociationSet Name="FK__Restauran__resta__2610A626" Association="Self.FK__Restauran__resta__2610A626">
+          <AssociationSet Name="FK__Restauran__resta__5AD97420" Association="Self.FK__Restauran__resta__5AD97420">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="RestaurantFeature" EntitySet="RestaurantFeature" />
           </AssociationSet>
-          <AssociationSet Name="FK__Restauran__socia__2057CCD0" Association="Self.FK__Restauran__socia__2057CCD0">
+          <AssociationSet Name="FK__Restauran__resta__618671AF" Association="Self.FK__Restauran__resta__618671AF">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="RestaurantCategory" EntitySet="RestaurantCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__socia__55209ACA" Association="Self.FK__Restauran__socia__55209ACA">
             <End Role="SocialMedia" EntitySet="SocialMedia" />
             <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedia" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__restaura__2DB1C7EE" Association="Self.FK__Review__restaura__2DB1C7EE">
+          <AssociationSet Name="FK__Review__restaura__69279377" Association="Self.FK__Review__restaura__69279377">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__user_id__2CBDA3B5" Association="Self.FK__Review__user_id__2CBDA3B5">
+          <AssociationSet Name="FK__Review__user_id__68336F3E" Association="Self.FK__Review__user_id__68336F3E">
             <End Role="User" EntitySet="User" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK__User__contact_id__1209AD79" Association="Self.FK__User__contact_id__1209AD79">
+          <AssociationSet Name="FK__User__contact_id__46D27B73" Association="Self.FK__User__contact_id__46D27B73">
             <End Role="ContactInformation" EntitySet="ContactInformation" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
@@ -305,12 +361,64 @@
     <edmx:ConceptualModels>
       <Schema Namespace="RestaurantReviewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RestaurantReviewEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="CreateUser">
-            <Parameter Name="loginname" Mode="In" Type="String" />
-            <Parameter Name="password" Mode="In" Type="String" />
-            <Parameter Name="firstname" Mode="In" Type="String" />
-            <Parameter Name="lastname" Mode="In" Type="String" />
-            <Parameter Name="recoveryemail" Mode="In" Type="String" />
+          <EntitySet Name="Categories" EntityType="RestaurantReviewModel.Category" />
+          <EntitySet Name="ContactInformations" EntityType="RestaurantReviewModel.ContactInformation" />
+          <EntitySet Name="Features" EntityType="RestaurantReviewModel.Feature" />
+          <EntitySet Name="HoursOfOperations" EntityType="RestaurantReviewModel.HoursOfOperation" />
+          <EntitySet Name="Restaurants" EntityType="RestaurantReviewModel.Restaurant" />
+          <EntitySet Name="RestaurantCategories" EntityType="RestaurantReviewModel.RestaurantCategory" />
+          <EntitySet Name="RestaurantFeatures" EntityType="RestaurantReviewModel.RestaurantFeature" />
+          <EntitySet Name="RestaurantSocialMedias" EntityType="RestaurantReviewModel.RestaurantSocialMedia" />
+          <EntitySet Name="Reviews" EntityType="RestaurantReviewModel.Review" />
+          <EntitySet Name="SocialMedias" EntityType="RestaurantReviewModel.SocialMedia" />
+          <EntitySet Name="Users" EntityType="RestaurantReviewModel.User" />
+          <AssociationSet Name="FK__Restauran__categ__1A34DF26" Association="RestaurantReviewModel.FK__Restauran__categ__1A34DF26">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="RestaurantCategory" EntitySet="RestaurantCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__conta__062DE679" Association="RestaurantReviewModel.FK__Restauran__conta__062DE679">
+            <End Role="ContactInformation" EntitySet="ContactInformations" />
+            <End Role="Restaurant" EntitySet="Restaurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__contact_id__7E8CC4B1" Association="RestaurantReviewModel.FK__User__contact_id__7E8CC4B1">
+            <End Role="ContactInformation" EntitySet="ContactInformations" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__featu__1387E197" Association="RestaurantReviewModel.FK__Restauran__featu__1387E197">
+            <End Role="Feature" EntitySet="Features" />
+            <End Role="RestaurantFeature" EntitySet="RestaurantFeatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoursOfOp__resta__25A691D2" Association="RestaurantReviewModel.FK__HoursOfOp__resta__25A691D2">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="HoursOfOperation" EntitySet="HoursOfOperations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__0BE6BFCF" Association="RestaurantReviewModel.FK__Restauran__resta__0BE6BFCF">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__1293BD5E" Association="RestaurantReviewModel.FK__Restauran__resta__1293BD5E">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="RestaurantFeature" EntitySet="RestaurantFeatures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__resta__1940BAED" Association="RestaurantReviewModel.FK__Restauran__resta__1940BAED">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="RestaurantCategory" EntitySet="RestaurantCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__restaura__20E1DCB5" Association="RestaurantReviewModel.FK__Review__restaura__20E1DCB5">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__socia__0CDAE408" Association="RestaurantReviewModel.FK__Restauran__socia__0CDAE408">
+            <End Role="SocialMedia" EntitySet="SocialMedias" />
+            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__user_id__1FEDB87C" Association="RestaurantReviewModel.FK__Review__user_id__1FEDB87C">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <FunctionImport Name="Restaurant_Create">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
             <Parameter Name="address1" Mode="In" Type="String" />
             <Parameter Name="address2" Mode="In" Type="String" />
             <Parameter Name="city" Mode="In" Type="String" />
@@ -319,53 +427,22 @@
             <Parameter Name="phonenumber" Mode="In" Type="String" />
             <Parameter Name="faxnumber" Mode="In" Type="String" />
             <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="InOut" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="Categories" EntityType="RestaurantReviewModel.Category" />
-          <EntitySet Name="ContactInformations" EntityType="RestaurantReviewModel.ContactInformation" />
-          <EntitySet Name="Features" EntityType="RestaurantReviewModel.Feature" />
-          <EntitySet Name="HoursOfOperations" EntityType="RestaurantReviewModel.HoursOfOperation" />
-          <EntitySet Name="Restaurants" EntityType="RestaurantReviewModel.Restaurant" />
-          <EntitySet Name="RestaurantFeatures" EntityType="RestaurantReviewModel.RestaurantFeature" />
-          <EntitySet Name="RestaurantSocialMedias" EntityType="RestaurantReviewModel.RestaurantSocialMedia" />
-          <EntitySet Name="Reviews" EntityType="RestaurantReviewModel.Review" />
-          <EntitySet Name="SocialMedias" EntityType="RestaurantReviewModel.SocialMedia" />
-          <EntitySet Name="Users" EntityType="RestaurantReviewModel.User" />
-          <AssociationSet Name="FK__Restauran__admin__19AACF41" Association="RestaurantReviewModel.FK__Restauran__admin__19AACF41">
-            <End Role="ContactInformation" EntitySet="ContactInformations" />
-            <End Role="Restaurant" EntitySet="Restaurants" />
-          </AssociationSet>
-          <AssociationSet Name="FK__User__contact_id__1209AD79" Association="RestaurantReviewModel.FK__User__contact_id__1209AD79">
-            <End Role="ContactInformation" EntitySet="ContactInformations" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Restauran__featu__2704CA5F" Association="RestaurantReviewModel.FK__Restauran__featu__2704CA5F">
-            <End Role="Feature" EntitySet="Features" />
-            <End Role="RestaurantFeature" EntitySet="RestaurantFeatures" />
-          </AssociationSet>
-          <AssociationSet Name="FK__HoursOfOp__resta__32767D0B" Association="RestaurantReviewModel.FK__HoursOfOp__resta__32767D0B">
-            <End Role="Restaurant" EntitySet="Restaurants" />
-            <End Role="HoursOfOperation" EntitySet="HoursOfOperations" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Restauran__resta__1F63A897" Association="RestaurantReviewModel.FK__Restauran__resta__1F63A897">
-            <End Role="Restaurant" EntitySet="Restaurants" />
-            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedias" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Restauran__resta__2610A626" Association="RestaurantReviewModel.FK__Restauran__resta__2610A626">
-            <End Role="Restaurant" EntitySet="Restaurants" />
-            <End Role="RestaurantFeature" EntitySet="RestaurantFeatures" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Review__restaura__2DB1C7EE" Association="RestaurantReviewModel.FK__Review__restaura__2DB1C7EE">
-            <End Role="Restaurant" EntitySet="Restaurants" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Restauran__socia__2057CCD0" Association="RestaurantReviewModel.FK__Restauran__socia__2057CCD0">
-            <End Role="SocialMedia" EntitySet="SocialMedias" />
-            <End Role="RestaurantSocialMedia" EntitySet="RestaurantSocialMedias" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Review__user_id__2CBDA3B5" Association="RestaurantReviewModel.FK__Review__user_id__2CBDA3B5">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
+          <FunctionImport Name="Restaurant_Find">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="state" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Review_Create">
+            <Parameter Name="userid" Mode="In" Type="Int32" />
+            <Parameter Name="restaurant_id" Mode="In" Type="Int32" />
+            <Parameter Name="review_comment" Mode="In" Type="String" />
+            <Parameter Name="rating" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Review_Delete">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -376,6 +453,7 @@
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RestaurantCategories" Relationship="RestaurantReviewModel.FK__Restauran__categ__1A34DF26" FromRole="Category" ToRole="RestaurantCategory" />
         </EntityType>
         <EntityType Name="ContactInformation">
           <Key>
@@ -390,8 +468,8 @@
           <Property Name="phone_number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fax_number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Restaurants" Relationship="RestaurantReviewModel.FK__Restauran__admin__19AACF41" FromRole="ContactInformation" ToRole="Restaurant" />
-          <NavigationProperty Name="Users" Relationship="RestaurantReviewModel.FK__User__contact_id__1209AD79" FromRole="ContactInformation" ToRole="User" />
+          <NavigationProperty Name="Restaurants" Relationship="RestaurantReviewModel.FK__Restauran__conta__062DE679" FromRole="ContactInformation" ToRole="Restaurant" />
+          <NavigationProperty Name="Users" Relationship="RestaurantReviewModel.FK__User__contact_id__7E8CC4B1" FromRole="ContactInformation" ToRole="User" />
         </EntityType>
         <EntityType Name="Feature">
           <Key>
@@ -402,7 +480,7 @@
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="RestaurantFeatures" Relationship="RestaurantReviewModel.FK__Restauran__featu__2704CA5F" FromRole="Feature" ToRole="RestaurantFeature" />
+          <NavigationProperty Name="RestaurantFeatures" Relationship="RestaurantReviewModel.FK__Restauran__featu__1387E197" FromRole="Feature" ToRole="RestaurantFeature" />
         </EntityType>
         <EntityType Name="HoursOfOperation">
           <Key>
@@ -415,7 +493,7 @@
           <Property Name="time_closed" Type="Time" Nullable="false" Precision="7" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__HoursOfOp__resta__32767D0B" FromRole="HoursOfOperation" ToRole="Restaurant" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__HoursOfOp__resta__25A691D2" FromRole="HoursOfOperation" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="Restaurant">
           <Key>
@@ -424,15 +502,29 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="restaurant_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="admin_id" Type="Int32" />
+          <Property Name="contact_information_id" Type="Int32" />
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ContactInformation" Relationship="RestaurantReviewModel.FK__Restauran__admin__19AACF41" FromRole="Restaurant" ToRole="ContactInformation" />
-          <NavigationProperty Name="HoursOfOperations" Relationship="RestaurantReviewModel.FK__HoursOfOp__resta__32767D0B" FromRole="Restaurant" ToRole="HoursOfOperation" />
-          <NavigationProperty Name="RestaurantSocialMedias" Relationship="RestaurantReviewModel.FK__Restauran__resta__1F63A897" FromRole="Restaurant" ToRole="RestaurantSocialMedia" />
-          <NavigationProperty Name="RestaurantFeatures" Relationship="RestaurantReviewModel.FK__Restauran__resta__2610A626" FromRole="Restaurant" ToRole="RestaurantFeature" />
-          <NavigationProperty Name="Reviews" Relationship="RestaurantReviewModel.FK__Review__restaura__2DB1C7EE" FromRole="Restaurant" ToRole="Review" />
+          <NavigationProperty Name="ContactInformation" Relationship="RestaurantReviewModel.FK__Restauran__conta__062DE679" FromRole="Restaurant" ToRole="ContactInformation" />
+          <NavigationProperty Name="HoursOfOperations" Relationship="RestaurantReviewModel.FK__HoursOfOp__resta__25A691D2" FromRole="Restaurant" ToRole="HoursOfOperation" />
+          <NavigationProperty Name="RestaurantSocialMedias" Relationship="RestaurantReviewModel.FK__Restauran__resta__0BE6BFCF" FromRole="Restaurant" ToRole="RestaurantSocialMedia" />
+          <NavigationProperty Name="RestaurantFeatures" Relationship="RestaurantReviewModel.FK__Restauran__resta__1293BD5E" FromRole="Restaurant" ToRole="RestaurantFeature" />
+          <NavigationProperty Name="RestaurantCategories" Relationship="RestaurantReviewModel.FK__Restauran__resta__1940BAED" FromRole="Restaurant" ToRole="RestaurantCategory" />
+          <NavigationProperty Name="Reviews" Relationship="RestaurantReviewModel.FK__Review__restaura__20E1DCB5" FromRole="Restaurant" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="RestaurantCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="category_id" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Category" Relationship="RestaurantReviewModel.FK__Restauran__categ__1A34DF26" FromRole="RestaurantCategory" ToRole="Category" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__1940BAED" FromRole="RestaurantCategory" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="RestaurantFeature">
           <Key>
@@ -444,8 +536,8 @@
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Feature" Relationship="RestaurantReviewModel.FK__Restauran__featu__2704CA5F" FromRole="RestaurantFeature" ToRole="Feature" />
-          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__2610A626" FromRole="RestaurantFeature" ToRole="Restaurant" />
+          <NavigationProperty Name="Feature" Relationship="RestaurantReviewModel.FK__Restauran__featu__1387E197" FromRole="RestaurantFeature" ToRole="Feature" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__1293BD5E" FromRole="RestaurantFeature" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="RestaurantSocialMedia">
           <Key>
@@ -458,8 +550,8 @@
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__1F63A897" FromRole="RestaurantSocialMedia" ToRole="Restaurant" />
-          <NavigationProperty Name="SocialMedia" Relationship="RestaurantReviewModel.FK__Restauran__socia__2057CCD0" FromRole="RestaurantSocialMedia" ToRole="SocialMedia" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Restauran__resta__0BE6BFCF" FromRole="RestaurantSocialMedia" ToRole="Restaurant" />
+          <NavigationProperty Name="SocialMedia" Relationship="RestaurantReviewModel.FK__Restauran__socia__0CDAE408" FromRole="RestaurantSocialMedia" ToRole="SocialMedia" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -474,8 +566,8 @@
           <Property Name="rating" Type="Int32" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Review__restaura__2DB1C7EE" FromRole="Review" ToRole="Restaurant" />
-          <NavigationProperty Name="User" Relationship="RestaurantReviewModel.FK__Review__user_id__2CBDA3B5" FromRole="Review" ToRole="User" />
+          <NavigationProperty Name="Restaurant" Relationship="RestaurantReviewModel.FK__Review__restaura__20E1DCB5" FromRole="Review" ToRole="Restaurant" />
+          <NavigationProperty Name="User" Relationship="RestaurantReviewModel.FK__Review__user_id__1FEDB87C" FromRole="Review" ToRole="User" />
         </EntityType>
         <EntityType Name="SocialMedia">
           <Key>
@@ -486,7 +578,7 @@
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="RestaurantSocialMedias" Relationship="RestaurantReviewModel.FK__Restauran__socia__2057CCD0" FromRole="SocialMedia" ToRole="RestaurantSocialMedia" />
+          <NavigationProperty Name="RestaurantSocialMedias" Relationship="RestaurantReviewModel.FK__Restauran__socia__0CDAE408" FromRole="SocialMedia" ToRole="RestaurantSocialMedia" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -506,10 +598,22 @@
           <Property Name="active" Type="Boolean" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ContactInformation" Relationship="RestaurantReviewModel.FK__User__contact_id__1209AD79" FromRole="User" ToRole="ContactInformation" />
-          <NavigationProperty Name="Reviews" Relationship="RestaurantReviewModel.FK__Review__user_id__2CBDA3B5" FromRole="User" ToRole="Review" />
+          <NavigationProperty Name="ContactInformation" Relationship="RestaurantReviewModel.FK__User__contact_id__7E8CC4B1" FromRole="User" ToRole="ContactInformation" />
+          <NavigationProperty Name="Reviews" Relationship="RestaurantReviewModel.FK__Review__user_id__1FEDB87C" FromRole="User" ToRole="Review" />
         </EntityType>
-        <Association Name="FK__Restauran__admin__19AACF41">
+        <Association Name="FK__Restauran__categ__1A34DF26">
+          <End Type="RestaurantReviewModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.RestaurantCategory" Role="RestaurantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantCategory">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Restauran__conta__062DE679">
           <End Type="RestaurantReviewModel.ContactInformation" Role="ContactInformation" Multiplicity="0..1" />
           <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="*" />
           <ReferentialConstraint>
@@ -517,11 +621,11 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Restaurant">
-              <PropertyRef Name="admin_id" />
+              <PropertyRef Name="contact_information_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User__contact_id__1209AD79">
+        <Association Name="FK__User__contact_id__7E8CC4B1">
           <End Type="RestaurantReviewModel.ContactInformation" Role="ContactInformation" Multiplicity="0..1" />
           <End Type="RestaurantReviewModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -533,7 +637,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__featu__2704CA5F">
+        <Association Name="FK__Restauran__featu__1387E197">
           <End Type="RestaurantReviewModel.Feature" Role="Feature" Multiplicity="1" />
           <End Type="RestaurantReviewModel.RestaurantFeature" Role="RestaurantFeature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -545,7 +649,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__HoursOfOp__resta__32767D0B">
+        <Association Name="FK__HoursOfOp__resta__25A691D2">
           <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
           <End Type="RestaurantReviewModel.HoursOfOperation" Role="HoursOfOperation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -557,7 +661,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__resta__1F63A897">
+        <Association Name="FK__Restauran__resta__0BE6BFCF">
           <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
           <End Type="RestaurantReviewModel.RestaurantSocialMedia" Role="RestaurantSocialMedia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -569,7 +673,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__resta__2610A626">
+        <Association Name="FK__Restauran__resta__1293BD5E">
           <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
           <End Type="RestaurantReviewModel.RestaurantFeature" Role="RestaurantFeature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -581,7 +685,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__restaura__2DB1C7EE">
+        <Association Name="FK__Restauran__resta__1940BAED">
+          <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="RestaurantReviewModel.RestaurantCategory" Role="RestaurantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RestaurantCategory">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__restaura__20E1DCB5">
           <End Type="RestaurantReviewModel.Restaurant" Role="Restaurant" Multiplicity="1" />
           <End Type="RestaurantReviewModel.Review" Role="Review" Multiplicity="*" />
           <ReferentialConstraint>
@@ -593,7 +709,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Restauran__socia__2057CCD0">
+        <Association Name="FK__Restauran__socia__0CDAE408">
           <End Type="RestaurantReviewModel.SocialMedia" Role="SocialMedia" Multiplicity="1" />
           <End Type="RestaurantReviewModel.RestaurantSocialMedia" Role="RestaurantSocialMedia" Multiplicity="*" />
           <ReferentialConstraint>
@@ -605,7 +721,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__user_id__2CBDA3B5">
+        <Association Name="FK__Review__user_id__1FEDB87C">
           <End Type="RestaurantReviewModel.User" Role="User" Multiplicity="1" />
           <End Type="RestaurantReviewModel.Review" Role="Review" Multiplicity="*" />
           <ReferentialConstraint>
@@ -617,13 +733,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RestaurantReviewModelStoreContainer" CdmEntityContainer="RestaurantReviewEntities">
-          <FunctionImportMapping FunctionImportName="CreateUser" FunctionName="RestaurantReviewModel.Store.CreateUser" />
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="RestaurantReviewModel.Category">
               <MappingFragment StoreEntitySet="Category">
@@ -680,9 +795,21 @@
                 <ScalarProperty Name="date_modified" ColumnName="date_modified" />
                 <ScalarProperty Name="date_created" ColumnName="date_created" />
                 <ScalarProperty Name="active" ColumnName="active" />
-                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="contact_information_id" ColumnName="contact_information_id" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="restaurant_name" ColumnName="restaurant_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RestaurantCategories">
+            <EntityTypeMapping TypeName="RestaurantReviewModel.RestaurantCategory">
+              <MappingFragment StoreEntitySet="RestaurantCategory">
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -758,6 +885,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Restaurant_Create" FunctionName="RestaurantReviewModel.Store.Restaurant_Create" />
+          <FunctionImportMapping FunctionImportName="Restaurant_Find" FunctionName="RestaurantReviewModel.Store.Restaurant_Find" />
+          <FunctionImportMapping FunctionImportName="Review_Create" FunctionName="RestaurantReviewModel.Store.Review_Create" />
+          <FunctionImportMapping FunctionImportName="Review_Delete" FunctionName="RestaurantReviewModel.Store.Review_Delete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

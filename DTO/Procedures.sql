@@ -65,7 +65,8 @@ CREATE PROCEDURE Restaurant_Create
 	@zipcode			NVARCHAR(MAX),
 	@phonenumber		NVARCHAR(MAX),
 	@faxnumber			NVARCHAR(MAX),
-	@email				NVARCHAR(MAX)
+	@email				NVARCHAR(MAX),
+	@id					INT		OUTPUT
 )
 AS
 	BEGIN
@@ -76,6 +77,7 @@ AS
 		INSERT INTO dbo.Restaurant (restaurant_name, description, contact_information_id, active, date_created, date_modified )
 		VALUES (@name, @description, @contact_id, 1, GETUTCDATE(), GETUTCDATE() )
 
+		SET @id = @@IDENTITY
 	END
 GO
 
@@ -148,6 +150,9 @@ CREATE PROCEDURE Restaurant_Find
 AS
 BEGIN
 	DECLARE @fl BIT = 0, @cl BIT = 0
+	IF LEN(@name) = 0 SET @name = NULL
+	IF LEN(@state) = 0 SET @state = NULL
+	IF LEN(@city) = 0 SET @city = NULL
 	IF EXISTS (SELECT * FROM @featurelist)		SET @fl = 1
 	IF EXISTS (SELECT * FROM @categorylist)		SET @cl = 1
 

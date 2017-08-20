@@ -32,33 +32,22 @@ namespace DAL
         public virtual DbSet<Feature> Features { get; set; }
         public virtual DbSet<HoursOfOperation> HoursOfOperations { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
+        public virtual DbSet<RestaurantCategory> RestaurantCategories { get; set; }
         public virtual DbSet<RestaurantFeature> RestaurantFeatures { get; set; }
         public virtual DbSet<RestaurantSocialMedia> RestaurantSocialMedias { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<SocialMedia> SocialMedias { get; set; }
         public virtual DbSet<User> Users { get; set; }
     
-        public virtual int CreateUser(string loginname, string password, string firstname, string lastname, string recoveryemail, string address1, string address2, string city, string state, string zipcode, string phonenumber, string faxnumber, string email)
+        public virtual int Restaurant_Create(string name, string description, string address1, string address2, string city, string state, string zipcode, string phonenumber, string faxnumber, string email, ObjectParameter id)
         {
-            var loginnameParameter = loginname != null ?
-                new ObjectParameter("loginname", loginname) :
-                new ObjectParameter("loginname", typeof(string));
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
     
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            var firstnameParameter = firstname != null ?
-                new ObjectParameter("firstname", firstname) :
-                new ObjectParameter("firstname", typeof(string));
-    
-            var lastnameParameter = lastname != null ?
-                new ObjectParameter("lastname", lastname) :
-                new ObjectParameter("lastname", typeof(string));
-    
-            var recoveryemailParameter = recoveryemail != null ?
-                new ObjectParameter("recoveryemail", recoveryemail) :
-                new ObjectParameter("recoveryemail", typeof(string));
+            var descriptionParameter = description != null ?
+                new ObjectParameter("description", description) :
+                new ObjectParameter("description", typeof(string));
     
             var address1Parameter = address1 != null ?
                 new ObjectParameter("address1", address1) :
@@ -92,7 +81,54 @@ namespace DAL
                 new ObjectParameter("email", email) :
                 new ObjectParameter("email", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateUser", loginnameParameter, passwordParameter, firstnameParameter, lastnameParameter, recoveryemailParameter, address1Parameter, address2Parameter, cityParameter, stateParameter, zipcodeParameter, phonenumberParameter, faxnumberParameter, emailParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Restaurant_Create", nameParameter, descriptionParameter, address1Parameter, address2Parameter, cityParameter, stateParameter, zipcodeParameter, phonenumberParameter, faxnumberParameter, emailParameter, id);
+        }
+    
+        public virtual int Restaurant_Find(string name, string state, string city)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var stateParameter = state != null ?
+                new ObjectParameter("state", state) :
+                new ObjectParameter("state", typeof(string));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("city", city) :
+                new ObjectParameter("city", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Restaurant_Find", nameParameter, stateParameter, cityParameter);
+        }
+    
+        public virtual int Review_Create(Nullable<int> userid, Nullable<int> restaurant_id, string review_comment, Nullable<int> rating)
+        {
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(int));
+    
+            var restaurant_idParameter = restaurant_id.HasValue ?
+                new ObjectParameter("restaurant_id", restaurant_id) :
+                new ObjectParameter("restaurant_id", typeof(int));
+    
+            var review_commentParameter = review_comment != null ?
+                new ObjectParameter("review_comment", review_comment) :
+                new ObjectParameter("review_comment", typeof(string));
+    
+            var ratingParameter = rating.HasValue ?
+                new ObjectParameter("rating", rating) :
+                new ObjectParameter("rating", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Review_Create", useridParameter, restaurant_idParameter, review_commentParameter, ratingParameter);
+        }
+    
+        public virtual int Review_Delete(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Review_Delete", idParameter);
         }
     }
 }

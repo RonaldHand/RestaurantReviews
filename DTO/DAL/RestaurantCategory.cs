@@ -12,21 +12,16 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class RestaurantCategory
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Category()
-        {
-            this.RestaurantCategories = new HashSet<RestaurantCategory>();
-        }
-    
         public int id { get; set; }
-        public string category_name { get; set; }
+        public int restaurant_id { get; set; }
+        public int category_id { get; set; }
         public Nullable<bool> active { get; set; }
         public Nullable<System.DateTime> date_created { get; set; }
         public Nullable<System.DateTime> date_modified { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RestaurantCategory> RestaurantCategories { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }
