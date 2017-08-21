@@ -13,10 +13,6 @@ For this project, we would like you to build this api. Feel free to add your own
 4. Get of a list of reviews by user
 5. Delete a review
 
-The Fine Print
+Details
 --------------
-Please use whatever technology and techniques you feel are applicable to solve the problem. We suggest that you approach this exercise as if this code was part of a larger system. The end result should be representative of your abilities and style.
-
-Please fork this repository. When you have completed your solution, please issue a pull request to notify us that you are ready.
-
-Have fun.
+BLL exposes all of the methods and DTO exposes all return types. We can than create Web Serivces, Mobile Apps, and Web Project by  referencing the BLL and DTO, thus minimizing any refactoring when changes are made to the core API methods and eliminating and direct exposure to the Data Access Layer. I used a mixture of ADO and EF in the Data Access Layer to show expose the use of custom SQL data types.
