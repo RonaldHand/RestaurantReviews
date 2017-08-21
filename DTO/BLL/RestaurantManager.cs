@@ -30,5 +30,19 @@ namespace BLL
         {
             DAL.Repos.RestaurantRepo.AddReview(data.UserId, data.RestaurantId, data.ReviewComment, data.Rating);
         }
+
+        public static bool DeleteReview(int reviewId)
+        {
+            try
+            {
+                DAL.Repos.RestaurantRepo.DeleteReview(reviewId);
+                return true;
+            }
+            catch
+            {
+                //Log error:
+                return false;
+            }
+        }
     }
 }

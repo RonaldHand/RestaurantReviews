@@ -82,6 +82,16 @@ namespace DAL.Repos
             }
         }
 
+        public static void DeleteReview (int reviewId)
+        {
+            using (var ctx = new RestaurantReviewEntities())
+            {
+                var x = ctx.Reviews.Find(reviewId);
+                ctx.Reviews.Remove(x);
+                ctx.SaveChanges();
+            }
+        }
+
         #region Transformations
 
         private static DTO.IdNamePair Transform_RestrauntListItem(DataRow row)

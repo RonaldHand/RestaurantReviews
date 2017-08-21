@@ -20,7 +20,7 @@ namespace Playground
 
             GetUserReview_Test(1);
 
-
+            DeleteReview_Test(2);
 
 
             CreateReview_Test(1, 1, "Good", 5);
@@ -56,12 +56,30 @@ namespace Playground
             try
             {
                 var x = BLL.RestaurantManager.AddRestaurant(name, description, address1, address2, city, state, zip, phonenumber, fax, email);
+                Console.WriteLine($"Restaurant Added: ({x}) {name}");
+                Console.WriteLine();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
             
+        }
+
+        static private void DeleteReview_Test(int reviewId)
+        {
+            try
+            {
+
+                var x = BLL.RestaurantManager.DeleteReview(reviewId);
+                Console.WriteLine($"Review Delete Success: {x}");
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         static private void GetRestaurant_Test(int id)
